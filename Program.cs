@@ -23,14 +23,15 @@ namespace CShrpTest
             while (true)
             {
                 {   // login =====================================================
-                    string session=null;
+                    string session = null;
                     try
                     {
                         Console.WriteLine("[Запрос] login");
-                        session = agent.login("admin", "admin");
-                        Console.WriteLine(session);
-              
-                    } catch(Exception ex)
+                        session = agent.login("www", "www");
+                        Console.WriteLine(session + "  - строка сессии");
+
+                    }
+                    catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                         continue;
@@ -39,16 +40,22 @@ namespace CShrpTest
                     try
                     {
                         JObject data = agent.getResult(session, 5000);
-                        Console.WriteLine(data);
+                        Console.WriteLine(data + "  - строка JSON data");
                         int code = int.Parse(data["code"].ToString());
-                        Console.WriteLine(code);
-                        if (code!=0)  Console.WriteLine("[Ошибка] "+ data["data"]);
+                        Console.WriteLine(code + "  - получили код");
+
+                        if (code != 0)
+                        {
+                            Console.WriteLine("[Ошибка] " + data["data"]);
+                        }
                         else
                         {
                             Console.WriteLine("[Ответ] Имя: {0} {1}", data["data"]["description"], data["data"]["expiration"]);
                         }
 
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         Console.WriteLine(ex.Message);
                     }
                 }
@@ -59,7 +66,7 @@ namespace CShrpTest
                     string session;
                     try
                     {
-                        session = agent.change("www", "www72", "ttt", 4000);
+                        session = agent.change("www", "www", "", 4000);
                         Console.WriteLine("[Запрос]: change");
                     }
                     catch (Exception ex)
@@ -79,7 +86,7 @@ namespace CShrpTest
                         Console.WriteLine(ex.Message);
                     }
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(100000);
             }
         } 
       }
